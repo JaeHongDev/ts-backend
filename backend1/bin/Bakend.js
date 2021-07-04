@@ -17,9 +17,9 @@ var Backend = (function () {
             console.log("server start");
         });
     };
+    Backend.prototype.parsetRoute = function () {
+    };
     return Backend;
 }());
 exports.Backend = Backend;
-(function () {
-});
 //# sourceMappingURL=Bakend.js.map

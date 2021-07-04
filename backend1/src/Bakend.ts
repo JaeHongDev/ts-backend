@@ -14,9 +14,7 @@ export class Backend {
     });
   }
 
+  private parsetRoute():void {
 
-  private parseController:void () {
-    
   }
-
 }
