@@ -66,6 +66,7 @@ var Backend = (function () {
     function Backend() {
         this.application_ = express_1.default();
         this.parsetRoute();
+        this.jsonEncoding();
     }
     Backend.prototype.setApplication = function () {
         return this.application_;
@@ -99,6 +100,10 @@ var Backend = (function () {
                 return [2];
             });
         });
+    };
+    Backend.prototype.jsonEncoding = function () {
+        var _a;
+        (_a = this.application_) === null || _a === void 0 ? void 0 : _a.use(express_1.default.json());
     };
     return Backend;
 }());

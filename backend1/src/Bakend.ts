@@ -9,6 +9,7 @@ export class Backend {
   constructor() {
     this.application_ = express();
     this.parsetRoute();
+    this.jsonEncoding();
   }
 
   public setApplication() {
@@ -35,4 +36,11 @@ export class Backend {
         );
       });
   }
+
+  // json encode
+  private jsonEncoding() {
+    this.application_?.use(express.json());
+  }
+
+  // handle application error
 }

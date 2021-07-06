@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "tsc --watch",
-    "server:local": "nodemon ./bin/Executable/server.js --delay 5"
+    "server:local": "nodemon ./bin/Executable/server.js --delay 5",
+    "mysql":"sh mysql.sh" 
   },
   "author": "",
   "license": "ISC",

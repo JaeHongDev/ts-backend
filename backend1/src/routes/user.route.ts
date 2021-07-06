@@ -8,6 +8,8 @@ class userRouter {
     this.router.get("/profile", (_, res) => {
       res.send({ test: "data" });
     });
+
+    
     return this.router;
   }
 }
