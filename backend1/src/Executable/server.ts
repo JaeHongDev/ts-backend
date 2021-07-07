@@ -1,12 +1,13 @@
-//import {Sequelize} from "sequelize";
+import "reflect-metadata";
+import { createConnection } from "typeorm";
 import { Backend } from "../Bakend";
+import { Configuration } from "../Configuration";
 
-function main() {
-  // Database setting
-  //const sequelize = new Sequelize("mysql://root:root@localhost:3306/test");
+async function main() {
+  // type orm connection
+  await createConnection(Configuration.DB_Config);
 
-
-  // Express server
+  // Express serverasync
   const backend = new Backend();
   backend.open();
 
