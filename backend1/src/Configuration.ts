@@ -24,6 +24,7 @@ export class Configuration {
 
 export namespace Configuration {
   export const port = 4001;
+  export const secretOrkey = "secretKey"
 }
 
 // npm install mysql2

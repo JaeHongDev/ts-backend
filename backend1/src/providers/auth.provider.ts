@@ -15,7 +15,7 @@ export class AuthProvider {
   // login
 
   public async findUserByEmail(email: string): Promise<User | undefined> {
-    return getConnection()
+    return await getConnection()
       .getRepository(User)
       .createQueryBuilder("user")
       .where("user.email = :email", { email })

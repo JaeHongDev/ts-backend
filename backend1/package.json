@@ -7,12 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "tsc --watch",
     "server:local": "nodemon ./bin/Executable/server.js --delay 5",
-    "mysql": "sh mysql.sh"
+    "mysql": "sh mysql.sh",
+    "codeTest": "nodemon ./bin/codeTest.js "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.2.5",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.6.4",
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.12",
+    "@types/jsonwebtoken": "^8.5.4",
     "@types/node": "^16.0.0",
     "nodemon": "^2.0.9",
     "ts-node": "^10.0.0",

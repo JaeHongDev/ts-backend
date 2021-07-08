@@ -2,6 +2,7 @@ import express from "express";
 import {
   joinController,
   loginController,
+  profileController,
 } from "../controllers/auth.controllers";
 
 class AuthRoute {
@@ -9,10 +10,11 @@ class AuthRoute {
   public routeName = "/auth";
 
   public set(): express.Router {
+    // post login
     this.router.post("/login", loginController);
     this.router.post("/join", joinController);
-
-    return this.router;
+    this.router.get("/profile",profileController)
+    return this.router; 
   }
 }
 

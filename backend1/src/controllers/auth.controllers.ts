@@ -1,6 +1,6 @@
 import express from "express";
 import { AuthProvider } from "../providers/auth.provider";
-
+import { sign, verify } from "../utils/jsonwebtoken";
 type postLoginOrJoinFormData = {
   email: string;
   password: string;
@@ -24,5 +24,17 @@ export const loginController = async (
   const { email, password }: postLoginOrJoinFormData = req.body;
 
   const firstUser = await new AuthProvider().findUserByEmail(email);
-  res.send(firstUser);
+  if (firstUser?.password === password) {
+    res.send(sign(firstUser));
+  }
+  res.send({ error: "error" });
+};
+
+export const profileController = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  console.log(req.headers);
+  
+
 };

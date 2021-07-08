@@ -31,6 +31,7 @@ var Configuration = (function () {
 exports.Configuration = Configuration;
 (function (Configuration) {
     Configuration.port = 4001;
+    Configuration.secretOrkey = "secretKey";
 })(Configuration = exports.Configuration || (exports.Configuration = {}));
 exports.Configuration = Configuration;
 //# sourceMappingURL=Configuration.js.map
