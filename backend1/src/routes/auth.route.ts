@@ -4,17 +4,22 @@ import {
   loginController,
   profileController,
 } from "../controllers/auth.controllers";
+import { Middlewares } from "../middlewares";
 
-class AuthRoute {
+class AuthRoute extends Middlewares {
   private router = express.Router();
   public routeName = "/auth";
 
+  constructor() {
+    super();
+  }
   public set(): express.Router {
     // post login
     this.router.post("/login", loginController);
     this.router.post("/join", joinController);
-    this.router.get("/profile",profileController)
-    return this.router; 
+    this.router.get("/profile", this.autheithicateUser, profileController);
+
+    return this.router;
   }
 }
 

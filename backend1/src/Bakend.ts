@@ -42,5 +42,9 @@ export class Backend {
     this.application_?.use(express.json());
   }
 
+  private async authMiddlewares(){
+
+  }
+
   // handle application error
 }
