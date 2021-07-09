@@ -2,17 +2,26 @@ import express from "express";
 import { User } from "./entity/user/user";
 
 export interface requestPropertyAddUserType extends express.Request {
-  user?: User;
+  user: User;
+}
+
+export interface addUserType {
+  user: {
+    id: number;
+    email: string;
+    iat: number;
+    exp: number;
+  };
 }
 
 export class Middlewares {
   public autheithicateUser(
     req: requestPropertyAddUserType,
-    _:any,
+    res: express.Response,
     next: express.NextFunction
   ) {
     if (!req.user) {
-      throw Error("user did not exists");
+      res.send({ error: "user did not exists" });
     }
     next();
   }

@@ -1,4 +1,5 @@
 import express from "express";
+import { requestPropertyAddUserType } from "../middlewares";
 import { AuthProvider } from "../providers/auth.provider";
 import { sign, verify } from "../utils/jsonwebtoken";
 type postLoginOrJoinFormData = {
@@ -18,23 +19,22 @@ export const joinController = async (
 };
 
 export const loginController = async (
-  req: express.Request,
+  req: requestPropertyAddUserType,
   res: express.Response
 ) => {
   const { email, password }: postLoginOrJoinFormData = req.body;
 
   const firstUser = await new AuthProvider().findUserByEmail(email);
   if (firstUser?.password === password) {
+    req.user = firstUser;
     res.send(sign(firstUser));
   }
   res.send({ error: "error" });
 };
 
 export const profileController = async (
-  req: express.Request,
+  req: requestPropertyAddUserType,
   res: express.Response
 ) => {
-  console.log(req.headers);
-  
-
+  }
 };
