@@ -1,3 +1,6 @@
+const EXTENSION = __filename.substr(-2);
+if (EXTENSION === "js") require("source-map-support").install();
+
 import fs from "fs";
 import path from "path";
 import express from "express";
@@ -12,8 +15,10 @@ fs.readdirSync(__dirname)
       file !== indexJs &&
       file.slice(-9) === ".route.js"
   )
-  .forEach((routeFile) =>
-    router.use(`/${routeFile.split(".")[0]}`, require(`./${routeFile}`).default)
-  );
+  .forEach(async (routeFile) => {
+    console.log(routeFile);
+    const route = await import("./user.route");
+    router.use(`/${routeFile.split(".")[0]}`, route.default.open());
+  });
 
 export default router;

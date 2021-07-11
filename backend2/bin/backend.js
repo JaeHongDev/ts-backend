@@ -63,6 +63,7 @@ var express_1 = __importDefault(require("express"));
 var http_errors_1 = __importDefault(require("http-errors"));
 var morgan = __importStar(require("morgan"));
 var Configuration_1 = require("./Configuration");
+var routes_1 = __importDefault(require("./routes"));
 var Backend = (function () {
     function Backend() {
     }
@@ -75,6 +76,7 @@ var Backend = (function () {
                         return [4, this.setup()];
                     case 1:
                         _a.sent();
+                        this.application_.use("/", routes_1.default);
                         return [4, this.setupError()];
                     case 2:
                         _a.sent();
@@ -112,12 +114,15 @@ var Backend = (function () {
     };
     Backend.prototype.handleError = function (err, req, res) {
         return __awaiter(this, void 0, void 0, function () {
+            var apiError;
             return __generator(this, function (_a) {
-                res.locals.message = err.message;
-                res.locals.error = process.env.NODE_ENV === "development" ? err : {};
-                res.status(err.status || 500);
-                res.render("error");
-                return [2];
+                apiError = err;
+                if (!err.status) {
+                    apiError = http_errors_1.default(err);
+                }
+                res.locals.message = apiError.message;
+                res.locals.error = process.env.NODE_ENV === "development" ? apiError : {};
+                return [2, res.status(apiError.status).json({ message: apiError.message })];
             });
         });
     };

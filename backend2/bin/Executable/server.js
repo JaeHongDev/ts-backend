@@ -37,15 +37,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var backend_1 = require("../backend");
+require("reflect-metadata");
+var typeorm_1 = require("typeorm");
+var Configuration_1 = require("../Configuration");
+var SGlobal_1 = require("../SGlobal");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var backend;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    if (process.argv[2]) {
+                        SGlobal_1.SGlobal.setMode(process.argv[2].toUpperCase());
+                    }
+                    return [4, typeorm_1.createConnection(Configuration_1.Configuration.get())];
+                case 1:
+                    _a.sent();
                     backend = new backend_1.Backend();
                     return [4, backend.open()];
-                case 1:
+                case 2:
                     _a.sent();
                     return [2];
             }

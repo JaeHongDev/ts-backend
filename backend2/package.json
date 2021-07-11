@@ -12,7 +12,12 @@
     "http-errors": "^1.8.0",
     "logger": "0.0.1",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.11"
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "nodemon": "^2.0.11",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.19",
+    "typeorm": "^0.2.34"
   },
   "devDependencies": {
     "@types/http-errors": "^1.8.1",
@@ -22,7 +27,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:server": "rm -rf ./bin && tsc --watch",
-    "start:local": "nodemon ./bin/Executable/server.js"
+    "start:local": "nodemon ./bin/Executable/server.js DEV",
+    "codeTest": "node ./bin/codeTest.js a b ",
+    "seeding:TEST": "node ./bin/seeding/index.js TEST",
+    "seeding:DEV": "node ./bin/seeding/index.js DEV"
   },
   "author": "",
   "license": "ISC"

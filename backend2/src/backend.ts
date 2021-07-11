@@ -3,6 +3,7 @@ import createError from "http-errors";
 import * as morgan from "morgan";
 
 import { Configuration } from "./Configuration";
+import router from "./routes";
 
 export class Backend {
   private application_?: express.Express;
@@ -12,6 +13,8 @@ export class Backend {
     this.application_ = express();
 
     await this.setup(); //setting express options
+
+    this.application_.use("/", router); //setting routes
 
     await this.setupError(); //setting error handler
     this.application_.listen(Configuration.port, () => {
@@ -51,11 +54,16 @@ export class Backend {
     req: express.Request,
     res: express.Response
   ) {
+    let apiError = err;
+
+    if (!err.status) {
+      apiError = createError(err);
+    }
     // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = process.env.NODE_ENV === "development" ? err : {};
+    res.locals.message = apiError.message;
+    res.locals.error = process.env.NODE_ENV === "development" ? apiError : {};
+
     // render the error page
-    res.status(err.status || 500);
-    res.render("error");
+    return res.status(apiError.status).json({ message: apiError.message });
   }
 }
