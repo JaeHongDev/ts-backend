@@ -41,6 +41,7 @@ require("reflect-metadata");
 var typeorm_1 = require("typeorm");
 var Configuration_1 = require("../Configuration");
 var SGlobal_1 = require("../SGlobal");
+var uuid_1 = require("../utils/uuid");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var backend;
@@ -53,6 +54,7 @@ function main() {
                     return [4, typeorm_1.createConnection(Configuration_1.Configuration.get())];
                 case 1:
                     _a.sent();
+                    console.log(uuid_1.Utiluuid.uuid());
                     backend = new backend_1.Backend();
                     return [4, backend.open()];
                 case 2:

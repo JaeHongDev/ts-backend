@@ -1,11 +1,19 @@
 import express from "express";
+import { getConnection } from "typeorm";
+import { User } from "../entity/user.entity";
 
 export class userController {
-  get(_: any, res?: express.Response, next: express.NextFunction) {
+  async get(_: any, res?: express.Response, next: express.NextFunction) {
+    let error = "";
     try {
-      return res?.json({ message: "get" });
+      const users = await getConnection()
+        .getRepository(User)
+        .createQueryBuilder("user")
+        .getMany();
+      return res?.json(users);
     } catch (e) {
-      next(e);
+      next(error);
+      error = e;
     }
   }
 }

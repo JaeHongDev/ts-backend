@@ -3,6 +3,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { Configuration } from "../Configuration";
 import { SGlobal } from "../SGlobal";
+import { Utiluuid } from "../utils/uuid";
 
 async function main() {
   // division server mode
@@ -12,6 +13,8 @@ async function main() {
 
   // database connection
   await createConnection(Configuration.get());
+
+  console.log(Utiluuid.uuid())
 
   const backend = new Backend();
   await backend.open();

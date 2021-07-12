@@ -18,7 +18,24 @@ export class Configuration {
 
       logging: true,
       synchronize: true,
+      bigNumberStrings: false,
+      dateStrings: false,
+      entities: [`${__dirname}/entity/*.${EXTENSION}`],
+    };
+  }
+  // SEEDING
+  public static getSeeding(): MysqlConnectionOptions {
+    return {
+      type: "mysql" as const,
+      host: "localhost",
+      port: 3306,
+      username: "root",
+      password: "root",
+      database: SGlobal.mode,
+
       dropSchema: true,
+      logging: true,
+      synchronize: true,
       bigNumberStrings: false,
       dateStrings: false,
       entities: [`${__dirname}/entity/*.${EXTENSION}`],

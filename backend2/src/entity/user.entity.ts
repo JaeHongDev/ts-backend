@@ -1,7 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { generateKey } from "crypto";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  Generated, //getter
+} from "typeorm";
 
 @Entity()
 export class User {
+  @Column()
+  @Generated("uuid")
+  uuid!: string;
+
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -11,9 +22,9 @@ export class User {
   @Column()
   password!: string;
 
-  @Column()
-  createAt: Date;
+  @CreateDateColumn()
+  createAt!: Date;
 
-  @Column()
-  updateAt: Date;
+  @CreateDateColumn()
+  updateAt!: Date;
 }

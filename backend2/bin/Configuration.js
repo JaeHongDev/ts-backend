@@ -23,7 +23,22 @@ var Configuration = (function () {
             database: SGlobal_1.SGlobal.mode,
             logging: true,
             synchronize: true,
+            bigNumberStrings: false,
+            dateStrings: false,
+            entities: [__dirname + "/entity/*." + EXTENSION],
+        };
+    };
+    Configuration.getSeeding = function () {
+        return {
+            type: "mysql",
+            host: "localhost",
+            port: 3306,
+            username: "root",
+            password: "root",
+            database: SGlobal_1.SGlobal.mode,
             dropSchema: true,
+            logging: true,
+            synchronize: true,
             bigNumberStrings: false,
             dateStrings: false,
             entities: [__dirname + "/entity/*." + EXTENSION],

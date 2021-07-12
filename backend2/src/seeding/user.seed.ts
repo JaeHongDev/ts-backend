@@ -16,6 +16,10 @@ export class userSeed {
           email: "12345@naver.com",
           password: "12345",
         },
+        {
+          email: "1",
+          password: "1",
+        },
       ])
       .execute();
   }
