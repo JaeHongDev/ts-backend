@@ -1,4 +1,3 @@
-import { generateKey } from "crypto";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -9,17 +8,17 @@ import {
 
 @Entity()
 export class User {
-  @Column()
+  @Column("varchar")
   @Generated("uuid")
   uuid!: string;
 
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ unique: true })
+  @Column({ type: "varchar", unique: true })
   email!: string;
 
-  @Column()
+  @Column("varchar")
   password!: string;
 
   @CreateDateColumn()

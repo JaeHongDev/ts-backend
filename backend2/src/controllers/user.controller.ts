@@ -1,9 +1,13 @@
 import express from "express";
-import { getConnection } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { User } from "../entity/user.entity";
 
 export class userController {
-  async get(_: any, res?: express.Response, next: express.NextFunction) {
+  async get(
+    _req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) {
     let error = "";
     try {
       const users = await getConnection()
@@ -14,6 +18,22 @@ export class userController {
     } catch (e) {
       next(error);
       error = e;
+    }
+  }
+  async findUserByUUID(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) {
+    const { uuid } = req.params;
+    try {
+      const user = await getRepository(User)
+        .createQueryBuilder("user")
+        .where("user.uuid = :uuid", { uuid })
+        .getOne();
+      return res.json(user);
+    } catch (e) {
+      next(e);
     }
   }
 }

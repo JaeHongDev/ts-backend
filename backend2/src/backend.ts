@@ -9,7 +9,7 @@ export class Backend {
   private application_?: express.Express;
 
   constructor() {}
-  public async open(): Promise<void> {
+  public async open(): Promise<express.Express> {
     this.application_ = express();
 
     await this.setup(); //setting express options
@@ -20,6 +20,8 @@ export class Backend {
     this.application_.listen(Configuration.port, () => {
       console.log(`server listen port:${Configuration.port}`);
     });
+
+    return this.application_;
   }
 
   //******************************************************************

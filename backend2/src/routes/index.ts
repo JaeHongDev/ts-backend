@@ -13,10 +13,9 @@ fs.readdirSync(__dirname)
     (file) =>
       file.indexOf(".") !== 0 &&
       file !== indexJs &&
-      file.slice(-9) === ".route.js"
+      [".route.js", ".route.ts"].includes(file.slice(-9))
   )
   .forEach(async (routeFile) => {
-    console.log(routeFile);
     const route = await import("./user.route");
     router.use(`/${routeFile.split(".")[0]}`, route.default.open());
   });

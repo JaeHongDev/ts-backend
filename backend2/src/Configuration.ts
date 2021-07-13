@@ -41,6 +41,24 @@ export class Configuration {
       entities: [`${__dirname}/entity/*.${EXTENSION}`],
     };
   }
+
+  // Test
+  public static getTesting(): MysqlConnectionOptions {
+    return {
+      type: "mysql" as const,
+      host: "localhost",
+      port: 3306,
+      username: "root",
+      password: "root",
+      database: "TEST",
+
+      dropSchema: true,
+      synchronize: true,
+      bigNumberStrings: false,
+      dateStrings: false,
+      entities: [`${__dirname}/entity/*.${EXTENSION}`],
+    };
+  }
 }
 
 export namespace Configuration {

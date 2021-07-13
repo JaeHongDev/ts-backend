@@ -5,9 +5,10 @@ class userRoutes {
   private userController = new userController();
   public open() {
     // url GET: host/user/
-    this.router.get("/", this.userController.get);
 
-    
+
+    this.router.get("/", this.userController.get);
+    this.router.get("/:uuid?", this.userController.findUserByUUID);
     return this.router;
   }
 }

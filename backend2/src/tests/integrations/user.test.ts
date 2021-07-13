@@ -1,44 +1,47 @@
-import request from "supertest";
-import randomString from "random-String";
-import { Backend } from "../../backend";
-import { getConnection } from "typeorm";
-import { User } from "../../entity/user.entity";
+import "reflect-metadata";
+import randomString from "random-string";
+import { createConnection, getRepository } from "typeorm";
+import supertest, { SuperAgentTest } from "supertest";
 
+import { User } from "../../entity/user.entity";
+import { Configuration } from "../../Configuration";
+import { Backend } from "../../backend";
+
+let user: User;
+
+let request: SuperAgentTest;
 const backend = new Backend();
 
-let user;
-
 beforeAll(async () => {
-  await getConnection()
-    .createQueryBuilder()
-    .insert()
-    .into(User)
-    .values([
-      {
-        email: "1234@naver.com",
-        password: "1234",
-      },
-      {
-        email: "12345@naver.com",
-        password: "12345",
-      },
-      {
-        email: "1",
-        password: "1",
-      },
-    ])
-    .execute();
+  await createConnection(Configuration.getTesting());
 
-  user = await getConnection()
-    .createQueryBuilder()
-    .insert()
-    .into(User)
-    .values([
+  request = supertest(await backend.open());
+
+  // create user
+  await getRepository(User).insert([
+    {
+      email: randomString() + "@test.com",
+      password: randomString(),
+    },
+  ]);
+  user = await (
+    await getRepository(User).insert([
       {
         email: randomString() + "@test.com",
-        password: randomString() + "test.com",
+        password: randomString(),
       },
-    ]);
-    
-    
+    ])
+  ).generatedMaps[0];
+});
+
+describe("GET: v1/user", () => {
+  test("전체 사용자 조회", async () => {
+    let response = await request.get("/user");
+    expect(response.body.length).toBeGreaterThan(1);
+  });
+
+  test("uuid로 조회", async () => {
+    let response = await request.get(`/user/${user.uuid}`);
+    expect(response.body.uuid).toBe(user.uuid);
+  });
 });
