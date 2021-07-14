@@ -1,39 +1,35 @@
 import express from "express";
-import { getConnection, getRepository } from "typeorm";
-import { User } from "../entity/user.entity";
+import createHttpError from "http-errors";
+import httpStatus from "http-status";
+import { userProvider } from "../providers/user.provider";
+import { ResponseUtils } from "../utils/responseUtils";
 
 export class userController {
-  async get(
-    _req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) {
-    let error = "";
+  async get(_req: express.Request, res: express.Response) {
     try {
-      const users = await getConnection()
-        .getRepository(User)
-        .createQueryBuilder("user")
-        .getMany();
-      return res?.json(users);
+      const users = await userProvider.all();
+      return ResponseUtils.sendData(users, res);
     } catch (e) {
-      next(error);
-      error = e;
+      return;
     }
   }
-  async findUserByUUID(
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) {
+  async findUserByUUID(req: express.Request, res: express.Response) {
     const { uuid } = req.params;
     try {
-      const user = await getRepository(User)
-        .createQueryBuilder("user")
-        .where("user.uuid = :uuid", { uuid })
-        .getOne();
-      return res.json(user);
+      const user = await userProvider.find(uuid);
+      if (!user) {
+        const error = createHttpError(
+          httpStatus.NOT_FOUND,
+          "사용자를 찾을 수 없습니다"
+        );
+        throw Error(error.toString());
+      }
+      return ResponseUtils.sendData(user, res);
     } catch (e) {
-      next(e);
+      return ResponseUtils.sendError(
+        createHttpError(httpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
+        res
+      );
     }
   }
 }

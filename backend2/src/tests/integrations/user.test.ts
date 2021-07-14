@@ -42,6 +42,12 @@ describe("GET: v1/user", () => {
 
   test("uuid로 조회", async () => {
     let response = await request.get(`/user/${user.uuid}`);
+    console.log(response.body);
     expect(response.body.uuid).toBe(user.uuid);
+  });
+
+  test("잘못된 사용자로 조회", async () => {
+    let response = await request.get(`/user/1`);
+    expect(response.statusCode).toBe(404);
   });
 });

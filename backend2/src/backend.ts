@@ -14,9 +14,10 @@ export class Backend {
 
     await this.setup(); //setting express options
 
-    this.application_.use("/", router); //setting routes
+    await this.setupRoute(); //setting routes
 
-    await this.setupError(); //setting error handler
+    //await this.setupError(); //setting error handler
+
     this.application_.listen(Configuration.port, () => {
       console.log(`server listen port:${Configuration.port}`);
     });
@@ -37,7 +38,10 @@ export class Backend {
     this.application_?.use(express.urlencoded({ extended: true }));
   }
 
-  private setupError() {
+  private async setupRoute(): Promise<void> {
+    this.application_?.use("/", router);
+  }
+  private async setupError(): Promise<void> {
     this.application_?.use(this.createError);
 
     this.application_?.use(this.handleError);
@@ -49,21 +53,25 @@ export class Backend {
     //res: express.Response,
     next: express.NextFunction
   ) {
-    next(createError(404));
+    console.log(1);
+    const error = createError(404);
+    next();
   }
+
   private async handleError(
     err: createError.HttpError,
-    req: express.Request,
+    _: any,
     res: express.Response
   ) {
+    console.log(1);
     let apiError = err;
 
     if (!err.status) {
       apiError = createError(err);
     }
     // set locals, only providing error in development
-    res.locals.message = apiError.message;
-    res.locals.error = process.env.NODE_ENV === "development" ? apiError : {};
+    // res.locals.message = apiError.message;
+    // res.locals.error = apiError;
 
     // render the error page
     return res.status(apiError.status).json({ message: apiError.message });

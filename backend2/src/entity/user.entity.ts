@@ -3,8 +3,12 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  Generated, //getter
+  Generated,
+  BeforeInsert,
+  AfterInsert, //getter
 } from "typeorm";
+
+import bcrypt from "bcrypt";
 
 @Entity()
 export class User {
@@ -26,4 +30,12 @@ export class User {
 
   @CreateDateColumn()
   updateAt!: Date;
+
+  
+  @BeforeInsert()
+  async changePassword(): Promise<void> {
+    console.log("cheeck")
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
 }

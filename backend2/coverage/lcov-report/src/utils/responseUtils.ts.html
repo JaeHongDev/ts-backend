@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/routes/index.ts</title>
+    <title>Code coverage report for src/utils/responseUtils.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/routes</a> index.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/utils</a> responseUtils.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.89% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/9</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -80,17 +80,9 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -98,34 +90,42 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const EXTENSION = __filename.substr(-2);
-<span class="missing-if-branch" title="if path not taken" >I</span>if (EXTENSION === "js") <span class="cstat-no" title="statement not covered" >require("source-map-support").install();</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Express from "express";
+import createHttpError from "http-errors";
 &nbsp;
-import fs from "fs";
-import path from "path";
-import express from "express";
+export namespace ResponseUtils {
+  export function sendData(data: any, res: Express.Response) {
+    return res.status(200).json(data);
+  }
+  export function sendError(
+    err: createHttpError.HttpError,
+    res: Express.Response
+  ) {
+    let apiError = err;
+    apiError = createHttpError(err);
+    apiError.status = 404;
+    console.log(apiError.status);
+    // set locals, only providing error in development
+    // res.locals.message = apiError.message;
+    // res.locals.error = apiError;
 &nbsp;
-const router = express.Router();
-const indexJs = path.basename(__filename);
-&nbsp;
-fs.readdirSync(__dirname)
-  .filter(
-    (file) =&gt;
-      file.indexOf(".") !== 0 &amp;&amp;
-      file !== indexJs &amp;&amp;
-      [".route.js", ".route.ts"].includes(file.slice(-9))
-  )
-  .forEach(async (routeFile) =&gt; {
-    const route = await import("./user.route");
-    router.use(`/${routeFile.split(".")[0]}`, route.default.open());
-  });
-&nbsp;
-export default router;
+    // render the error page
+    return res.status(apiError.status).json({ message: apiError.message });
+  }
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
