@@ -16,7 +16,7 @@ fs.readdirSync(__dirname)
       [".route.js", ".route.ts"].includes(file.slice(-9))
   )
   .forEach(async (routeFile) => {
-    const route = await import("./user.route");
+    const route = await import(`./${routeFile}`);
     router.use(`/${routeFile.split(".")[0]}`, route.default.open());
   });
 

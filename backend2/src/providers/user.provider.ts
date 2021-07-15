@@ -1,9 +1,14 @@
-import { getConnection } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { userStruct } from "../api/structurs/user.struct";
 import { User } from "../entity/user.entity";
 
 export namespace userProvider {
   export async function store(data: userStruct.insertUser) {
+    const userRepo = getRepository(User);
+    const user = new User();
+    user.email = data.email;
+    user.password = data.password;
+    return await userRepo.save(user);
     return getConnection()
       .createQueryBuilder()
       .insert()
