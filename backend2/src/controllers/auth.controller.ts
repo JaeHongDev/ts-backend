@@ -6,6 +6,6 @@ export namespace AuthController {
     res: express.Response,
     next: express.NextFunction
   ) {
-    return ResponseUtils.sendData({}, res);
+    return ResponseUtils.sendData({ data: { token: true } }, res);
   }
 }

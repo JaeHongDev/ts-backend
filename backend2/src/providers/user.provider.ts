@@ -5,16 +5,18 @@ import { User } from "../entity/user.entity";
 export namespace userProvider {
   export async function store(data: userStruct.insertUser) {
     const userRepo = getRepository(User);
+    console.log(userRepo);
     const user = new User();
-    user.email = data.email;
-    user.password = data.password;
-    return await userRepo.save(user);
-    return getConnection()
-      .createQueryBuilder()
-      .insert()
-      .into(User)
-      .values(data)
-      .execute();
+    user.email = "2";
+    user.password = "3";
+    await userRepo.save(user);
+
+    // return getConnection()
+    //   .createQueryBuilder()
+    //   .insert()
+    //   .into(User)
+    //   .values(data)
+    //   .execute();
   }
 
   export async function all(): Promise<User[]> {

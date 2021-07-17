@@ -1,23 +1,19 @@
-import supertest, { SuperAgentTest } from "supertest";
+import supertest from "supertest";
 import { Backend } from "../../backend";
 
-export class SupterTestRequest {
-  private static request: SupterTestRequest;
-  private request: SuperAgentTest;
+export class SuperTestRequest {
+  private static instance: SuperTestRequest;
+  private request: supertest.SuperTest<supertest.Test>;
+  private backend: any;
   private constructor() {}
 
-  private async createRequest() {
-    return supertest(await new Backend().open);
-  }
-  public static getRequest(): SupterTestRequest {
-    if (!SupterTestRequest.request) {
-      SupterTestRequest.request = new SupterTestRequest();
+  public static async getRequest() {
+    if (!SuperTestRequest.instance) {
+      console.log("connect instance");
+      SuperTestRequest.instance = new SuperTestRequest();
+      SuperTestRequest.instance.request = supertest(await new Backend().open());
     }
-    return SupterTestRequest.request;
-  }
-
-  public getRequest() {
-    return this.request;
+    return SuperTestRequest.instance.request;
   }
 }
 

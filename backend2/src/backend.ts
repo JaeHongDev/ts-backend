@@ -1,5 +1,4 @@
 import express from "express";
-import { Server } from "http";
 import createError from "http-errors";
 import * as morgan from "morgan";
 
@@ -8,8 +7,6 @@ import router from "./routes";
 
 export class Backend {
   private application_?: express.Express;
-  private listenServer!: Server;
-  private is_open: Boolean;
   constructor() {}
   public async open(): Promise<express.Express> {
     this.application_ = express();
@@ -17,24 +14,7 @@ export class Backend {
     await this.setup(); //setting express options
 
     await this.setupRoute(); //setting routes
-
-    //await this.setupError(); //setting error handler
-
-    this.is_open = false;
-
-    this.listenServer = this.application_.listen(Configuration.port);
-
-    this.is_open = true;
-
     return this.application_;
-  }
-
-  public async close() {
-    if (this.listenServer === undefined) {
-      return;
-    }
-    console.log(this.listenServer);
-    this.listenServer.close();
   }
 
   //******************************************************************

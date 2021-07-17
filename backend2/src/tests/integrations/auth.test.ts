@@ -1,21 +1,26 @@
-import superTest, { SuperAgentTest } from "supertest";
 import randomString from "random-string";
-import { Backend } from "../../backend";
+
 import { userProvider } from "../../providers/user.provider";
 import { userStruct } from "../../api/structurs/user.struct";
 
-const backend = new Backend();
-let request: SuperAgentTest;
+import { SuperTestRequest } from ".";
+import { createConnection } from "typeorm";
+import { Configuration } from "../../Configuration";
+
+let request;
 describe("로그인 테스트", () => {
   let userData: userStruct.insertUser;
 
   beforeAll(async () => {
-    request = superTest(await backend.open());
+    request = await SuperTestRequest.getRequest();
+    await createConnection(Configuration.getTesting());
+
     userData = {
       email: randomString() + "@test.com",
       password: randomString(),
     };
-    userProvider.store(userData);
+
+    await userProvider.store(userData);
   });
 
   test("실제 로그인 테스트 | 200", async () => {
@@ -25,6 +30,5 @@ describe("로그인 테스트", () => {
     });
     expect(response.statusCode).toBe(200);
     expect(response.body.data.token).toBeTruthy();
-    backend.close();
   });
 });

@@ -1,21 +1,17 @@
 import "reflect-metadata";
 import randomString from "random-string";
 import { createConnection, getRepository } from "typeorm";
-import supertest, { SuperAgentTest } from "supertest";
-
 import { User } from "../../entity/user.entity";
 import { Configuration } from "../../Configuration";
-import { Backend } from "../../backend";
 
+import {SuperTestRequest} from ".";
+
+let request;
 let user: User;
 
-let request: SuperAgentTest;
-const backend = new Backend();
-
 beforeAll(async () => {
+  request = await SuperTestRequest.getRequest()
   await createConnection(Configuration.getTesting());
-
-  request = supertest(await backend.open());
 
   // create user
   await getRepository(User).insert([
@@ -51,5 +47,3 @@ describe("GET: v1/user", () => {
     expect(response.statusCode).toBe(404);
   });
 });
-
-
