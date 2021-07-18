@@ -80,7 +80,7 @@
       "uuid": "",
       "date": ""
     },
-    "useEntity":["User","Todo"]
+    "useEntity":["User","Todo"],
     "method":"GET",
     "form": "Todo[]"
   }
