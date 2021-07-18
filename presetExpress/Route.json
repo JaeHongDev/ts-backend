@@ -1,0 +1,87 @@
+[
+  {
+    "path": "/",
+    "method": "GET",
+    "description": "Return test data that hello world",
+    "form": {
+      "data": "hello world"
+    }
+  },
+  {
+    "path": "/user/:uuid?",
+    "useEntity": "User",
+    "method": "GET",
+    "description": "This route is return user data that if request header property UUID and user UUID are the same ",
+    "form": {
+      "data": "User"
+    }
+  },
+  {
+    "path": "/atuh/join",
+    "useEntity": "User",
+    "method": "POST",
+    "form": {
+      "data": {
+        "message": "success login | user exists"
+      }
+    }
+  },
+  {
+    "path": "/auth/login",
+    "useEntity": "User",
+    "method": "POST",
+    "form": {
+      "data": {
+        "token": "random token"
+      }
+    }
+  },
+  {
+    "path": "/todo/",
+    "useEntity": "Todo",
+    "method": "GET",
+    "form": {
+      "data": "Todo[]"
+    }
+  },
+  {
+    "path": "/todo/create",
+    "useEntity": "Todo",
+    "method": "POST",
+    "form": {
+      "data": {
+        "message": "success create todo | todo did not create"
+      }
+    }
+  },
+  {
+    "path": "/todo/checked",
+    "useEntity": ["User", "Todo"],
+    "method": "PUT",
+    "form": {
+      "data": {
+        "message": "success checked todo | todo did not checked"
+      }
+    }
+  },
+  {
+    "path": "/todo/delete",
+    "useEntity": ["User", "User"],
+    "method": "DELETE",
+    "form": {
+      "data": {
+        "message": "success delete todo | todo did not deleted"
+      }
+    }
+  },
+  {
+    "path": "/todo/find",
+    "param": {
+      "uuid": "",
+      "date": ""
+    },
+    "useEntity":["User","Todo"]
+    "method":"GET",
+    "form": "Todo[]"
+  }
+]
