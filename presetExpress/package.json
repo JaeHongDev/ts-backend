@@ -4,8 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "rm -rf ./bin && tsc --watch",
+    "generate:seed": "node ./bin/Seeding/index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^16.3.3",
+    "mysql": "^2.18.1",
+    "random-string": "^0.2.0",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.19",
+    "typeorm": "^0.2.34"
+  },
+  "devDependencies": {
+    "@types/random-string": "0.0.28"
+  }
 }
