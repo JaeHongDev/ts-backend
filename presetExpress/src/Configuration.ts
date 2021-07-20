@@ -21,3 +21,11 @@ export class Configuration {
     };
   }
 }
+
+export namespace Configuration {
+  export const PORT = 4000;
+}
+
+export interface Configuration {
+  port: number;
+}

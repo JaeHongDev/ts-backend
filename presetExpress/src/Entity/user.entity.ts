@@ -4,6 +4,7 @@ import {
   Column,
   Generated,
   OneToMany,
+  JoinColumn,
 } from "typeorm";
 
 import { DateTime } from "./datetime";
@@ -27,6 +28,7 @@ export class User {
   @Column((_type) => DateTime)
   user!: DateTime;
 
-  @OneToMany(() => Todo, (todo) => todo.user)
+  @OneToMany(() => Todo, (todo) => todo.user, { cascade: true })
+  @JoinColumn()
   todos!: Todo[];
 }
