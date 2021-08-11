@@ -57,6 +57,10 @@ var User = (function () {
         typeorm_1.OneToMany(function () { return ReadMyBook; }, function (table) { return table.users; }),
         __metadata("design:type", Array)
     ], User.prototype, "readMyBooks", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return UserCommunity; }, function (userCommunity) { return userCommunity.users; }),
+        __metadata("design:type", Array)
+    ], User.prototype, "userCommunities", void 0);
     User = __decorate([
         typeorm_1.Entity()
     ], User);
@@ -69,6 +73,14 @@ var Community = (function () {
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
     ], Community.prototype, "id", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return UserCommunity; }, function (userCommunity) { return userCommunity.communities; }),
+        __metadata("design:type", Array)
+    ], Community.prototype, "userCommunities", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return BookCommunity; }, function (bookCommunity) { return bookCommunity.communities; }),
+        __metadata("design:type", Array)
+    ], Community.prototype, "bookCommunities", void 0);
     Community = __decorate([
         typeorm_1.Entity()
     ], Community);
@@ -82,9 +94,13 @@ var Book = (function () {
         __metadata("design:type", Number)
     ], Book.prototype, "id", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return ReadMyBook; }, function (table) { return table.; }),
+        typeorm_1.OneToMany(function () { return ReadMyBook; }, function (table) { return table.books; }),
         __metadata("design:type", Array)
     ], Book.prototype, "readMyBooks", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return BookCommunity; }, function (bookCommunity) { return bookCommunity.books; }),
+        __metadata("design:type", Array)
+    ], Book.prototype, "bookCommunities", void 0);
     Book = __decorate([
         typeorm_1.Entity()
     ], Book);
@@ -99,11 +115,11 @@ var ReadMyBook = (function () {
     ], ReadMyBook.prototype, "id", void 0);
     __decorate([
         typeorm_1.ManyToOne(function () { return User; }, function (user) { return user.readMyBooks; }),
-        __metadata("design:type", Array)
+        __metadata("design:type", User)
     ], ReadMyBook.prototype, "users", void 0);
     __decorate([
         typeorm_1.ManyToOne(function () { return Book; }, function (book) { return book.readMyBooks; }),
-        __metadata("design:type", Array)
+        __metadata("design:type", Book)
     ], ReadMyBook.prototype, "books", void 0);
     ReadMyBook = __decorate([
         typeorm_1.Entity()
@@ -117,26 +133,121 @@ var UserCommunity = (function () {
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
     ], UserCommunity.prototype, "id", void 0);
+    __decorate([
+        typeorm_1.ManyToOne(function () { return User; }, function (user) { return user.id; }),
+        __metadata("design:type", User)
+    ], UserCommunity.prototype, "users", void 0);
+    __decorate([
+        typeorm_1.ManyToOne(function () { return Community; }, function (community) { return community.id; }),
+        __metadata("design:type", Community)
+    ], UserCommunity.prototype, "communities", void 0);
+    UserCommunity = __decorate([
+        typeorm_1.Entity()
+    ], UserCommunity);
     return UserCommunity;
+}());
+var BookCommunity = (function () {
+    function BookCommunity() {
+    }
+    __decorate([
+        typeorm_1.PrimaryGeneratedColumn(),
+        __metadata("design:type", Number)
+    ], BookCommunity.prototype, "id", void 0);
+    __decorate([
+        typeorm_1.ManyToOne(function () { return Book; }, function (book) { return book.bookCommunities; }),
+        __metadata("design:type", Book)
+    ], BookCommunity.prototype, "books", void 0);
+    __decorate([
+        typeorm_1.ManyToOne(function () { return Community; }, function (community) { return community.bookCommunities; }),
+        __metadata("design:type", Community)
+    ], BookCommunity.prototype, "communities", void 0);
+    BookCommunity = __decorate([
+        typeorm_1.Entity()
+    ], BookCommunity);
+    return BookCommunity;
 }());
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var connection, data;
+        var connection, data, user, book, community;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4, typeorm_1.createConnection({
                         type: "mysql",
                         host: "localhost",
-                        port: 3306,
+                        port: 50001,
                         username: "root",
                         password: "root",
                         database: "TEST",
+                        entities: [User, Community, Book, ReadMyBook, UserCommunity, BookCommunity],
+                        synchronize: true,
+                        dropSchema: true
                     })];
                 case 1:
                     connection = _a.sent();
                     return [4, connection.query("show databases")];
                 case 2:
                     data = _a.sent();
+                    [User, Community, Book].forEach(function (entity) { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4, connection
+                                        .createQueryBuilder()
+                                        .insert()
+                                        .into(entity)
+                                        .values({})
+                                        .execute()];
+                                case 1:
+                                    _a.sent();
+                                    return [2];
+                            }
+                        });
+                    }); });
+                    return [4, connection
+                            .getRepository(User)
+                            .createQueryBuilder("user")
+                            .where("user.id = :id", { id: 1 })
+                            .getOne()];
+                case 3:
+                    user = _a.sent();
+                    return [4, connection
+                            .getRepository(Book)
+                            .createQueryBuilder("book")
+                            .where("book.id = :id", { id: 1 })
+                            .getOne()];
+                case 4:
+                    book = _a.sent();
+                    return [4, connection
+                            .getRepository(Community)
+                            .createQueryBuilder("community")
+                            .where("community.id = :id", { id: 1 })
+                            .getOne()];
+                case 5:
+                    community = _a.sent();
+                    return [4, connection
+                            .createQueryBuilder()
+                            .insert()
+                            .into(ReadMyBook)
+                            .values({ users: user, books: book })
+                            .execute()];
+                case 6:
+                    _a.sent();
+                    return [4, connection
+                            .createQueryBuilder()
+                            .insert()
+                            .into(UserCommunity)
+                            .values({ users: user, communities: community })
+                            .execute()];
+                case 7:
+                    _a.sent();
+                    return [4, connection
+                            .createQueryBuilder()
+                            .insert()
+                            .into(BookCommunity)
+                            .values({ communities: community, books: book })
+                            .execute()];
+                case 8:
+                    _a.sent();
                     console.log(data);
                     return [2];
             }
