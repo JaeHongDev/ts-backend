@@ -6,8 +6,11 @@
   "scripts": {
     "mysql": "sh mysql.sh",
     "test": "jest",
-    "server:dev": "tsc --watch",
-    "start:local": "node ./bin/index.js"
+
+    "dev": "npm run dev:server | npm run dev:start",
+    "dev:server": "tsc --watch",
+    "dev:start": "node ./bin/index.js a b c d e"
+
   },
   "author": "",
   "license": "ISC",
@@ -17,9 +20,11 @@
     "@babel/preset-typescript": "^7.15.0",
     "@types/jest": "^26.0.24",
     "babel-jest": "^27.0.6",
-    "jest": "^27.0.6"
+    "jest": "^27.0.6",
+    "tsc-watch": "^4.4.0"
   },
   "dependencies": {
+    "@types/node": "^16.6.0",
     "mysql": "^2.18.1",
     "typeorm": "^0.2.36"
   }
