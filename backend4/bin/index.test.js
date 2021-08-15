@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = __importDefault(require("./index"));
-test("adds 1 + 2 to equal 3", function () {
-    expect(index_1.default(1, 2)).toBe(3);
+var supertest_1 = __importDefault(require("supertest"));
+var Backend_1 = __importDefault(require("./Backend"));
+describe("Test /", function () {
 });
+supertest_1.default(Backend_1.default);
 //# sourceMappingURL=index.test.js.map

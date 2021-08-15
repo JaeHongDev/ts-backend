@@ -1,8 +1,10 @@
 import { createConnection } from "typeorm";
+
+import Backend from "./Backend";
 async function main() {
   // seeting
-  const argv = process.argv;
-  console.log(argv);
+  // const argv = process.argv;
+  // console.log(argv);
 
   const connection = await createConnection({
     type: "mysql",
@@ -14,14 +16,12 @@ async function main() {
     entities: [`${__dirname}/entity/*.entity.js`],
     synchronize: true,
     dropSchema: true,
-
-    
   });
 
-
-
-  const data = await connection.query("desc user");
-  console.log(data);
+  
+  Backend.listen(4000, () => {
+    console.log("start server");
+  });
 }
 
 main();
