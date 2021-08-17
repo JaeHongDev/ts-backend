@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "mysql": "sh mysql.sh",
-    "test": "jest",
+    "testall": "jest --watch",
+    "test":"jest",
     "dev": "npm run dev:server | npm run dev:start",
     "dev:server": "tsc --watch",
     "dev:start": "node ./bin/index.js a b c d e"

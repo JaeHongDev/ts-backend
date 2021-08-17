@@ -21,6 +21,30 @@ var User = (function () {
         __metadata("design:type", Number)
     ], User.prototype, "id", void 0);
     __decorate([
+        typeorm_1.Column("varchar"),
+        __metadata("design:type", String)
+    ], User.prototype, "nameFirst", void 0);
+    __decorate([
+        typeorm_1.Column("varchar"),
+        __metadata("design:type", String)
+    ], User.prototype, "nameLast", void 0);
+    __decorate([
+        typeorm_1.Column("varchar"),
+        __metadata("design:type", String)
+    ], User.prototype, "email", void 0);
+    __decorate([
+        typeorm_1.Column("varchar"),
+        __metadata("design:type", String)
+    ], User.prototype, "password", void 0);
+    __decorate([
+        typeorm_1.Column("datetime"),
+        __metadata("design:type", Date)
+    ], User.prototype, "createdAt", void 0);
+    __decorate([
+        typeorm_1.Column("dateTime"),
+        __metadata("design:type", Date)
+    ], User.prototype, "updateAt", void 0);
+    __decorate([
         typeorm_1.OneToMany(function () { return readMyBook_entity_1.ReadMyBook; }, function (table) { return table.users; }),
         __metadata("design:type", Array)
     ], User.prototype, "readMyBooks", void 0);
